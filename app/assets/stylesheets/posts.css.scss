@@ -1,0 +1,25 @@
+// Place all the styles related to the Posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.board{
+	width: 100%;
+}
+
+table{
+	 width: 80%;
+	 tr td{
+	 	height: 30px;
+	 }
+	 #description{
+	 	height: 300px;
+	 }
+}
+
+.write-form{
+	width: 90%;
+	#write{
+		float: right;
+		margin: 1px;
+	}
+}

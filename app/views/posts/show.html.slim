@@ -1,0 +1,16 @@
+br/
+br/
+br/
+.board
+  table.table-bordered.table-hover align="center"
+    tr align="center"
+      th width="10%" 제목
+      td = @post.title
+    tr id="description"
+      th width="10%" 내용
+      td = @post.description
+
+.write-form
+  - if current_user.id == @post.user_id || current_user.admin?
+      = button_to "수정", edit_post_path(id: @post.id), method: :get, class: "btn btn-info", id: "write"
+      = button_to "삭제", post_path(id: @post.id), method: :delete, class: "btn btn-info", id: "write", :confirm => "정말 삭제하겠습니까?"

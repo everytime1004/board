@@ -1,0 +1,18 @@
+.navbar.navbar-fixed-top
+	.navbar-inner
+		.container
+			a.btn.btn-navbar data-toggle="collapse" data-target=".new-collapse"
+				span.icon-bar
+				span.icon-bar
+				span.icon-bar
+			= link_to "Item", root_path, class: "brand"
+			.nav-collapse.collapse#main-menu
+				ul.nav.pull-right#main-menu-right
+					li
+						- if user_signed_in?
+							| Logged in as 
+							strong= current_user.name
+							= link_to "로그아웃", destroy_user_session_path, class: "btn btn-inverse", method: :delete, id: "logout"
+
+						- else
+							= link_to "로그인", new_user_session_path(), class: "btn btn-inverse", id: "login"

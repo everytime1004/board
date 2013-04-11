@@ -1,0 +1,28 @@
+br/
+br/
+br/
+- if flash[:notice]
+  p#notice= flash[:notice]
+
+.board
+  table.table-bordered.table-striped.table-hover align="center"
+    tr align="center"
+      th width="10%" 번호
+      th width="10%" 분류
+      th width="15%" 글쓴이
+      th width="40%" 제목
+      th width="15%" 등록일
+      th width="10%" 조회
+
+    - @posts.each do |post|
+      tr align="center"
+        td = post.id
+        td = post.category
+        td = User.where(id: post.user_id).first.name
+        td = link_to "#{post.title}", post_path(id: post.id), id: "test_error"
+        td = post.created_at.strftime("%Y/%m/%d")
+        td = post.count
+
+.write-form
+  - if user_signed_in?
+    = button_to "글쓰기", new_post_path, method: :get, class: "btn btn-info", id: "write"
