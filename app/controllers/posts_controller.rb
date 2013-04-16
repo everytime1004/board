@@ -45,6 +45,8 @@ class PostsController < ApplicationController
   # POST /posts.json
   def create
     @post = current_user.posts.new(params[:post])
+    
+    send_notification
 
     respond_to do |format|
       if @post.save

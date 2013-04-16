@@ -12,4 +12,6 @@ class User < ActiveRecord::Base
   has_many :posts, dependent: :destroy
 
   before_save :ensure_authentication_token
+
+  has_many :tasks
 end

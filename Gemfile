@@ -12,10 +12,13 @@ gem 'slim-rails'
 gem 'haml2slim'
 gem 'slim'
 gem 'simple_form'
-
+gem 'rabl'
 
 # authenticate
 gem 'devise'
+
+# push
+gem 'gcm'
 
 # Pagination
 gem 'kaminari'

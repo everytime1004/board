@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130411035502) do
+ActiveRecord::Schema.define(:version => 20130415051625) do
 
   create_table "admins", :force => true do |t|
     t.string   "name",                   :default => "", :null => false
@@ -32,6 +32,12 @@ ActiveRecord::Schema.define(:version => 20130411035502) do
   add_index "admins", ["name"], :name => "index_admins_on_name", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
 
+  create_table "gcms", :force => true do |t|
+    t.string   "reg_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "posts", :force => true do |t|
     t.integer  "user_id"
     t.string   "title"
@@ -40,6 +46,14 @@ ActiveRecord::Schema.define(:version => 20130411035502) do
     t.integer  "count",       :default => 0
     t.datetime "created_at",                 :null => false
     t.datetime "updated_at",                 :null => false
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.boolean  "completed",  :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
   end
 
   create_table "users", :force => true do |t|

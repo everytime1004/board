@@ -10,4 +10,5 @@ class Admin < ActiveRecord::Base
   # attr_accessible :title, :body
 
   has_many :posts, dependent: :destroy
+  has_many :tasks
 end

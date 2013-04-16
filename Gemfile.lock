@@ -61,6 +61,9 @@ GEM
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
+    gcm (0.0.2)
+      httparty
+      json
     haml (4.0.2)
       tilt
     haml2slim (0.4.6)
@@ -68,6 +71,9 @@ GEM
       nokogiri
       ruby_parser
     hike (1.2.2)
+    httparty (0.11.0)
+      multi_json (~> 1.0)
+      multi_xml (>= 0.5.2)
     i18n (0.6.4)
     journey (1.0.4)
     jquery-rails (2.2.1)
@@ -87,9 +93,12 @@ GEM
       railties
     mime-types (1.22)
     multi_json (1.7.2)
+    multi_xml (0.5.3)
     nokogiri (1.5.9)
     orm_adapter (0.4.0)
     polyglot (0.3.3)
+    rabl (0.8.2)
+      activesupport (>= 2.3.14)
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
@@ -178,10 +187,12 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   execjs
+  gcm
   haml2slim
   jquery-rails
   kaminari
   meta_request
+  rabl
   rails (= 3.2.12)
   rails-erd
   rmagick
