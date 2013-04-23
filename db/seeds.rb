@@ -7,7 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 # encoding: UTF-8
 
-admin = User.create(name: "everytime1004", email: "anyday1004@gmail.com", password: "didi1004", password_confirmation: "didi1004")
-admin.update_attribute :admin, true
+admin = Admin.create(name: "everytime1004", email: "admin@admin.com", password: "didi1004", password_confirmation: "didi1004")
 
 admin.posts.create!(title: "Danger!!", description: "Danger!!")

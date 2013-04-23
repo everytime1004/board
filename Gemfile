@@ -13,6 +13,7 @@ gem 'haml2slim'
 gem 'slim'
 gem 'simple_form'
 gem 'rabl'
+gem 'nested_form'
 
 # authenticate
 gem 'devise'
@@ -26,6 +27,7 @@ gem 'kaminari'
 # Image
 gem 'rmagick'
 gem 'carrierwave'
+gem 'jquery-fileupload-rails'
 
 # Diagram
 gem 'rails-erd'

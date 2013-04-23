@@ -1,11 +1,13 @@
+# encoding: utf-8
 class PostsController < ApplicationController
   before_filter :user_session_check, except: :index
-  before_filter :authenticate_user!, :only => [:new, :edit, :destroy]
+  before_filter :user_auth_check, :only => [:new, :edit, :destroy]
 
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
+    @notices = Post.find_all_by_category("공지사항")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,6 +31,7 @@ class PostsController < ApplicationController
   # GET /posts/new.json
   def new
     @post = Post.new
+    @post.photos.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +47,12 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = current_user.posts.new(params[:post])
+    if user_signed_in?
+      @post = current_user.posts.new(params[:post])
+      @post.update_attributes(user_id: current_user.id)
+    else
+      @post = current_admin.posts.new(params[:post])
+    end
     
     send_notification
 
@@ -62,7 +70,11 @@ class PostsController < ApplicationController
   # PUT /posts/1
   # PUT /posts/1.json
   def update
-    @post = current_user.posts.find(params[:id])
+    if user_signed_in?
+      @post = current_user.posts.find(params[:id])
+    else
+      @post = current_admin.posts.find(params[:id])
+    end
 
     respond_to do |format|
       if @post.update_attributes(params[:post])

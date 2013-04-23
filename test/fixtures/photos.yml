@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  image: MyString
+  photoable_id: 1
+  photoable_type: MyString
+
+two:
+  image: MyString
+  photoable_id: 1
+  photoable_type: MyString

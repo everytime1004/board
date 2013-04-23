@@ -9,6 +9,6 @@ class Admin < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
   # attr_accessible :title, :body
 
-  has_many :posts, dependent: :destroy
+  has_many :posts, as: :postable, dependent: :destroy
   has_many :tasks
 end

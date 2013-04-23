@@ -1,0 +1,34 @@
+br/
+br/
+br/
+- if flash[:notice]
+  p#notice= flash[:notice]
+
+.board
+  table.table-bordered.table-striped.table-hover align="center"
+    tr align="center"
+      th width="20%" 분류
+      th width="40%" 제목
+      th width="15%" 글쓴이
+      th width="15%" 등록일
+      th width="10%" 조회
+
+      - @notices.each do |notice|
+        tr align="center"
+          td id="notice" width="20%" = notice.category
+          td width="40%" = link_to "#{notice.title}", post_path(id: notice.id), id: "test_error"
+          td width="15%" = User.where(id: notice.user_id).first.name
+          td width="15%" = notice.created_at.strftime("%Y/%m/%d")
+          td width="10%" = notice.count
+      
+      - @posts.each do |post|
+        tr align="center"
+          td width="20%" = post.category
+          td width="40%" = link_to "#{post.title}", post_path(id: post.id), id: "test_error"
+          td width="15%" = User.where(id: post.user_id).first.name
+          td width="15%" = post.created_at.strftime("%Y/%m/%d")
+          td width="10%" = post.count
+
+.write-form
+  - if user_signed_in? || admin_signed_in?
+    = button_to "글쓰기", new_post_path, method: :get, class: "btn btn-info", id: "write"

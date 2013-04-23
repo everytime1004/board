@@ -6,5 +6,8 @@ html
 		= javascript_include_tag "application"
 		= csrf_meta_tags
 	body
-		= render 'layouts/header'
+		- if admin_signed_in?
+			= render 'layouts/header_admin'
+		- else
+			= render 'layouts/header'
 		= yield

@@ -3,7 +3,8 @@ class CreatePosts < ActiveRecord::Migration
     create_table :posts do |t|
 
     	## relation
-    	t.references :user
+      t.belongs_to :postable, polymorphic: true
+      t.references :user
 
     	## contents
       t.string :title
@@ -13,5 +14,6 @@ class CreatePosts < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :posts, [:postable_id, :postable_type]
   end
 end
