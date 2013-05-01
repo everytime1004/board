@@ -25,4 +25,16 @@ table{
 		float: right;
 		margin: 1px;
 	}
+	#comment_add_button{
+		float: left;
+	}
+}
+
+.comments_add{
+	display: none;
+	width: 100%;
+	#comment_field{
+		width: 75%;
+		height: 50px;
+	}
 }

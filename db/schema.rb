@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130423020559) do
+ActiveRecord::Schema.define(:version => 20130423130400) do
 
   create_table "admins", :force => true do |t|
     t.string   "name",                   :default => "", :null => false
@@ -32,10 +32,20 @@ ActiveRecord::Schema.define(:version => 20130423020559) do
   add_index "admins", ["name"], :name => "index_admins_on_name", :unique => true
   add_index "admins", ["reset_password_token"], :name => "index_admins_on_reset_password_token", :unique => true
 
-  create_table "gcms", :force => true do |t|
-    t.string   "reg_id"
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "post_id"
+    t.text     "contents"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "gcms", :force => true do |t|
+    t.string   "reg_id"
+    t.boolean  "noty",       :default => true
+    t.string   "userName"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
   end
 
   create_table "photos", :force => true do |t|
@@ -60,7 +70,7 @@ ActiveRecord::Schema.define(:version => 20130423020559) do
     t.datetime "updated_at",                   :null => false
   end
 
-  add_index "posts", ["postable_type"], :name => "index_posts_on_postable_type"
+  add_index "posts", ["postable_id", "postable_type"], :name => "index_posts_on_postable_id_and_postable_type"
 
   create_table "tasks", :force => true do |t|
     t.integer  "user_id"
@@ -74,7 +84,10 @@ ActiveRecord::Schema.define(:version => 20130423020559) do
     t.string   "name"
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
-    t.string   "tel"
+    t.string   "phone"
+    t.string   "phone_first"
+    t.string   "phone_second"
+    t.string   "phone_third"
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

@@ -20,6 +20,8 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @post.increment!(:count)
+    @comment = Comment.new
+    @comments = Comment.find_all_by_post_id(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -53,8 +55,8 @@ class PostsController < ApplicationController
     else
       @post = current_admin.posts.new(params[:post])
     end
-    
-    send_notification
+
+    send_notification_new_post
 
     respond_to do |format|
       if @post.save
@@ -75,6 +77,8 @@ class PostsController < ApplicationController
     else
       @post = current_admin.posts.find(params[:id])
     end
+
+    send_notification_sell_complete(@post.comments) if @post.category == "판매 완료"
 
     respond_to do |format|
       if @post.update_attributes(params[:post])

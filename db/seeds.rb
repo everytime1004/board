@@ -10,3 +10,5 @@
 admin = Admin.create(name: "everytime1004", email: "admin@admin.com", password: "didi1004", password_confirmation: "didi1004")
 
 admin.posts.create!(title: "Danger!!", description: "Danger!!")
+
+User.create(name: "junho", email: "junho@junho.com", password: "didi1004", password_confirmation: "didi1004", phone_first: "010", phone_second: "2426", phone_third: "6556")

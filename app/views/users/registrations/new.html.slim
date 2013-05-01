@@ -1,0 +1,19 @@
+h2 회원가입
+= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :name, label: "이름", :required => true, :autofocus => true
+    = f.input :email, label: "e-mail", :required => true
+    = f.input :password, label: "비밀번호", :required => true
+    = f.input :password_confirmation, label: "비밀번호 확인", :required => true
+    = f.input :phone, label: "전화번호 *" do
+      = f.input_field :phone_first, id: "phonenumber-select", as: :select, collection: ["010","011","016","017","019","018"], label: false
+      .hipen -
+      = f.input_field :phone_second, id: "phonenumber", label: false
+      .hipen -
+      = f.input_field :phone_third, id: "phonenumber", label: false
+  	br/
+  	br/
+  	br/
+	= f.button :submit, "회원가입"
+= render "users/shared/links"

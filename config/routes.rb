@@ -31,6 +31,8 @@ Board::Application.routes.draw do
     end
   end 
 
+  post "comments/create"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
