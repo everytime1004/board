@@ -12,7 +12,10 @@ br/
     - @post.photos.each do |photo|
       tr id="image"
         th width="10%" Picture
-        td = image_tag photo.image_url(:thumb).to_s
+        - if photo.image.to_s != "/images/fallback/default.png"
+          td = image_tag photo.image_url(:thumb).to_s
+        - else
+          td = "사진이 없습니다."
 
 .write-form
   - if admin_signed_in? || current_user.id == @post.user_id
@@ -32,7 +35,11 @@ br/
 .comments_add align="center"
   = form_for @comment, :url => url_for(:controller => 'comments', :action => 'create') do |f|
     = f.text_area :contents, id: "comment_field"
-    = f.hidden_field :user_id, {value: current_user.id}
-    = f.hidden_field :post_id, {value: @post.id}
+    - if user_signed_in?
+      = f.hidden_field :user_id, {value: current_user.id}
+      = f.hidden_field :post_id, {value: @post.id}
+    - else
+      = f.hidden_field :user_id, {value: current_admin.id}
+      = f.hidden_field :post_id, {value: @post.id}
 
     .actions = f.submit 'save' 

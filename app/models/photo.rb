@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Photo < ActiveRecord::Base
   attr_accessible :image
   belongs_to :photoable, polymorphic: true

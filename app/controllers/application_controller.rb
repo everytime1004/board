@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   end
 
   def send_notification_new_post
-  	gcm = GCM.new("AIzaSyAFk13f06QBjz_m9VvYatCfZn6sOMnZ6rI")
+  	gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
     registration_ids = array_regId
     options = {data: {posts: "새 글이 등록 되었습니다."}, collapse_key: "updated_posts"}
     response = gcm.send_notification(registration_ids, options)
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   def send_notification_new_comment(comments)
     users = []
     regIdArray = []
-    users << User.find_all_by_id(comments.first.post_id).first.name
+    users << User.find_all_by_id(comments.first.user_id).first.name
     comments.each do |comment|
       users << User.find_all_by_id(comment.user_id).first.name
     end

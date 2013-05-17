@@ -26,6 +26,7 @@ Board::Application.routes.draw do
         delete 'sessions' => 'sessions#destroy', :as => 'logout'
       end
       get 'posts' => 'posts#index', :as => 'posts'
+      get 'posts/:id' => 'posts#show'
       post 'posts' => 'posts#create'
       post 'gcms' => 'gcms#create'
     end

@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Post < ActiveRecord::Base
   attr_accessible :description, :title, :category, :count, :photos_attributes, :user_id, :comments_attributes
 

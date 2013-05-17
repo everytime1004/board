@@ -1,4 +1,4 @@
-# ecoding: utf-8
+# encoding: utf-8
 class Api::V1::GcmsController < ApplicationController
   skip_before_filter :verify_authenticity_token,
                      :if => Proc.new { |c| c.request.format == 'application/json' }
@@ -17,8 +17,7 @@ class Api::V1::GcmsController < ApplicationController
       end
     else
       noty = params[:gcm].select{|c| c == "noty"}.first.second
-      userName = params[:gcm].select{|c| c == "userName"}.first.second
-      Gcm.find_by_reg_id(params[:gcm].select{|c| c == "reg_id"}.first.second).update_attributes(noty: noty, userName: userName)
+      Gcm.find_by_reg_id(params[:gcm].select{|c| c == "reg_id"}.first.second).update_attributes(noty: noty)
       render :status => 200,
                :json => { :success => true,
                           :info => 'Gcm reg_id is updated',

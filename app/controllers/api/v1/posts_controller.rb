@@ -1,31 +1,79 @@
-# ecoding: utf-8
+# encoding: utf-8
 class Api::V1::PostsController < ApplicationController
   skip_before_filter :verify_authenticity_token,
                      :if => Proc.new { |c| c.request.format == 'application/json' }
 
   before_filter :authenticate_user!
 
-  def index
-    @posts = Post.all
+  def index  
+    @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
+    @notices = Post.find_all_by_category("공지사항")
+
+    @posts = @notices + @posts
+
+    @posts
   end
 
   def create
-    @image = Base64.decode64(params[:post][:image])
-    File.open("public/uploads/photo_phone/#{params[:post][:title]}_image.jpg", 'wb') do |f|
-      f.write(@image) 
-    end
+    @images = []
+    @images << Base64.decode64(params[:post][:image1])
+    @images << Base64.decode64(params[:post][:image2])
+    @images << Base64.decode64(params[:post][:image3])
+    @images << Base64.decode64(params[:post][:image4])
+    @images << Base64.decode64(params[:post][:image5])
+
     @post = current_user.posts.build(title: params[:post][:title], category: params[:post][:category], description: params[:post][:description])
-    @post.photos.new(image: File.open("public/uploads/photo_phone/#{params[:post][:title]}_image.jpg", 'rb'))
     @post.update_attributes(user_id: current_user.id)
     
     if @post.save
       send_notification_new_post
-      @post
+
+      @images.each_with_index do |image, index|
+        File.open("public/uploads/photo_phone/#{params[:post][:title]}_#{@post.id}_image_#{index+1}.jpg", 'wb') do |f|
+          f.write(image) 
+        end
+      end
+
+      5.times.each do |imageNum|
+        @post.photos.new(image: File.open("public/uploads/photo_phone/#{params[:post][:title]}_#{@post.id}_image_#{imageNum+1}.jpg", 'rb'))
+      end
+
+      if @post.save
+        @post
+      else
+        render :status => :unprocessable_entity,
+             :json => { :success => false,
+                        :info => @post.errors,
+                        :data => {} }
+        @post.destroy
+      end
     else
       render :status => :unprocessable_entity,
              :json => { :success => false,
                         :info => @post.errors,
                         :data => {} }
     end
+  end
+
+  def show
+    @post = Post.find_all_by_id(params[:id]).first
+    @image_dir = []
+
+    if @post.photos != []
+      @post.photos.count.times.each do |imageNum|
+        @image_dir << "http://192.168.0.11:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
+        # puts "http://192.168.0.74:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
+        # @image_dir << "http://theeye.pe.kr/attach/1/1181213948.jpg"
+      end
+
+      render :json => { :success => true,
+                        :info => "사진을 보실려면 버튼을 클릭해 주세요.",
+                        :data => {image: @image_dir} }
+    else
+      render :json => { :success => true,
+                        :info => "이 게시물은 사진이 없습니다.",
+                        :data => {} }
+    end
+
   end
 end
