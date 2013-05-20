@@ -16,11 +16,11 @@ class Api::V1::PostsController < ApplicationController
 
   def create
     @images = []
-    @images << Base64.decode64(params[:post][:image1])
-    @images << Base64.decode64(params[:post][:image2])
-    @images << Base64.decode64(params[:post][:image3])
-    @images << Base64.decode64(params[:post][:image4])
-    @images << Base64.decode64(params[:post][:image5])
+    i = 1
+    until i==5 || params[:post]["#{:image}#{i}"] == nil
+      @images << Base64.decode64(params[:post]["#{:image}#{i}"])
+      i += 1
+    end
 
     @post = current_user.posts.build(title: params[:post][:title], category: params[:post][:category], description: params[:post][:description])
     @post.update_attributes(user_id: current_user.id)
@@ -34,7 +34,7 @@ class Api::V1::PostsController < ApplicationController
         end
       end
 
-      5.times.each do |imageNum|
+      (@images.count).times.each do |imageNum|
         @post.photos.new(image: File.open("public/uploads/photo_phone/#{params[:post][:title]}_#{@post.id}_image_#{imageNum+1}.jpg", 'rb'))
       end
 
@@ -61,13 +61,13 @@ class Api::V1::PostsController < ApplicationController
 
     if @post.photos != []
       @post.photos.count.times.each do |imageNum|
-        @image_dir << "http://192.168.0.11:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
+        @image_dir << "http://172.30.1.20:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # puts "http://192.168.0.74:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://theeye.pe.kr/attach/1/1181213948.jpg"
       end
 
       render :json => { :success => true,
-                        :info => "사진을 보실려면 버튼을 클릭해 주세요.",
+                        :info => "",
                         :data => {image: @image_dir} }
     else
       render :json => { :success => true,
