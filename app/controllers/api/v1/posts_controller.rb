@@ -29,14 +29,25 @@ class Api::V1::PostsController < ApplicationController
       send_notification_new_post
 
       @images.each_with_index do |image, index|
-        File.open("public/uploads/photo_phone/#{params[:post][:title]}_#{@post.id}_image_#{index+1}.jpg", 'wb') do |f|
-          f.write(image) 
-        end
+        tempFile = Tempfile.new("tempFile")
+        tempFile.binmode
+        tempFile.write(image)
+
+        uploaded_file = ActionDispatch::Http::UploadedFile.new(:tempfile => tempFile, :filename => "#{params[:post][:title]}_#{@post.id}_image_#{index+1}.jpg")
+        @post.photos.new(image: uploaded_file)
+
+        tempFile.delete
       end
 
-      (@images.count).times.each do |imageNum|
-        @post.photos.new(image: File.open("public/uploads/photo_phone/#{params[:post][:title]}_#{@post.id}_image_#{imageNum+1}.jpg", 'rb'))
-      end
+      # @images.each_with_index do |image, index|
+      #   File.open("public/uploads/photo_phone/#{params[:post][:title].encoding}_#{@post.id}_image_#{index+1}.jpg", 'wb') do |f|
+      #     f.write(image)
+      #   end
+      # end
+
+      # (@images.count).times.each do |imageNum|
+      #   @post.photos.new(image: File.open("public/uploads/photo_phone/#{params[:post][:title].encoding}_#{@post.id}_image_#{imageNum+1}.jpg", 'rb'))
+      # end
 
       if @post.save
         @post
@@ -61,7 +72,8 @@ class Api::V1::PostsController < ApplicationController
 
     if @post.photos != []
       @post.photos.count.times.each do |imageNum|
-        @image_dir << "http://172.30.1.20:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
+        @image_dir << "http://192.168.11.5:3000/uploads/photo/thumb_#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
+        # @image_dir << "http://boardgeneration.herokuapp.com/uploads/photo/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # puts "http://192.168.0.74:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://theeye.pe.kr/attach/1/1181213948.jpg"
       end

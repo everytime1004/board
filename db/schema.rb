@@ -72,14 +72,6 @@ ActiveRecord::Schema.define(:version => 20130423130400) do
 
   add_index "posts", ["postable_id", "postable_type"], :name => "index_posts_on_postable_id_and_postable_type"
 
-  create_table "tasks", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "title"
-    t.boolean  "completed",  :default => false
-    t.datetime "created_at",                    :null => false
-    t.datetime "updated_at",                    :null => false
-  end
-
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email",                  :default => "", :null => false

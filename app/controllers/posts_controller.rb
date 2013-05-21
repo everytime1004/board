@@ -53,9 +53,6 @@ class PostsController < ApplicationController
       @post = current_user.posts.new(params[:post])
       @post.update_attributes(user_id: current_user.id)
 
-      @post.photos.each_with_index do |image, index|
-        FileUtils.cp "public/#{image.image.to_s}", "public/uploads/photo_phone/#{params[:post][:title]}_#{@post.id}_image_#{index+1}.jpg"
-      end
     else
       @post = current_admin.posts.new(params[:post])
     end
