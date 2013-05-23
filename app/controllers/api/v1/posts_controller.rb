@@ -28,6 +28,7 @@ class Api::V1::PostsController < ApplicationController
     if @post.save
       send_notification_new_post
 
+      ## 여기는 heroku 올리기 전 코드
       @images.each_with_index do |image, index|
         tempFile = Tempfile.new("tempFile")
         tempFile.binmode
