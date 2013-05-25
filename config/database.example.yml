@@ -19,7 +19,11 @@ test:
   timeout: 5000
 
 production:
-  adapter: postgresql
-  database: app-dev
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: board_production
   pool: 5
-  timeout: 5000
+  username: board
+  password: didi11
+  socket: /var/run/mysqld/mysqld.sock
