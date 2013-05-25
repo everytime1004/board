@@ -25,5 +25,5 @@ production:
   database: board_production
   pool: 5
   username: board
-  password: didi11
+  password: secret
   socket: /var/run/mysqld/mysqld.sock
