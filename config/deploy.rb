@@ -6,15 +6,13 @@ set :scm, :git
 set :repository,  "https://github.com/everytime1004/board.git"
 set :branch, "master"
 
-set :deploy_to, "/var/www"
-
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 server "115.68.27.117", :app, :web, :db, :primary => true
 
-set :user, 'everytime1004'
-set :deploy_to, "/home/everytime1004/deploy/board"
+set :user, 'deployer'
+set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
