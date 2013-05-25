@@ -24,6 +24,6 @@ production:
   reconnect: false
   database: board_production
   pool: 5
-  username: deployer
+  username: root
   password: didi11
   socket: /var/run/mysqld/mysqld.sock
