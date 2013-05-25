@@ -1,4 +1,4 @@
-root = "/home/everytime1004/deploy/board/current"
+root = "/home/deployer/apps/board/current"
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
