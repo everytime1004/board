@@ -11,7 +11,7 @@ br/
       td = @post.description
     - @post.photos.each do |photo|
       tr id="image"
-        th width="10%" Picture
+        th width="10%" 사진
         - if photo.image.to_s != "/images/fallback/default.png"
           td = image_tag photo.image_url(:thumb).to_s
         - else
