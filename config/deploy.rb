@@ -15,7 +15,7 @@ set :user, 'deployer'
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
-
+set :normalize_asset_timestamps, false
 set :shared_children, shared_children + %w{public/uploads}
 
 default_run_options[:pty] = true
