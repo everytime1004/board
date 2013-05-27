@@ -18,7 +18,10 @@ class ImageUploader < CarrierWave::Uploader::Base
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     # "uploads/#{model.class.to_s.underscore}"
-    "asdf/uploads/#{model.class.to_s.underscore}"
+    "shared/uploads/#{model.class.to_s.underscore}"
+    logger.debug "shared/uploads/#{model.class.to_s.underscore}"
+    logger.debug "shared_path : #{shared_path}"
+    logger.debug "rails_root : #{Rails.root}"
   end
 
   def cache_dir
