@@ -19,9 +19,6 @@ class ImageUploader < CarrierWave::Uploader::Base
   def store_dir
     # "uploads/#{model.class.to_s.underscore}"
     "shared/uploads/#{model.class.to_s.underscore}"
-    logger.debug "shared/uploads/#{model.class.to_s.underscore}"
-    logger.debug "shared_path : #{shared_path}"
-    logger.debug "rails_root : #{Rails.root}"
   end
 
   def cache_dir
