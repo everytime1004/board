@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
     end
     Gcm.all.each do |gcm|
       users.each do |user|
-        regIdArray << gcm.reg_id if gcm.userName == user && gcm.noty == true
+        regIdArray << gcm.reg_id if gcm.noty == true
       end
     end
 
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
     end
     Gcm.all.each do |gcm|
       users.each do |user|
-        regIdArray << gcm.reg_id if gcm.userName == user && gcm.noty == true
+        regIdArray << gcm.reg_id if gcm.noty == true
       end
     end
 
@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
     user = User.find_all_by_id(user_id).first.name
 
     Gcm.all.each do |gcm|
-      regIdArray = gcm.reg_id if gcm.userName == user && gcm.noty == true
+      regIdArray = gcm.reg_id if gcm.noty == true
     end
 
     gcm = GCM.new("AIzaSyAFk13f06QBjz_m9VvYatCfZn6sOMnZ6rI")
