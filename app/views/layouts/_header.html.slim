@@ -12,7 +12,7 @@
 						- if user_signed_in?
 							| Logged in as 
 							strong= current_user.name
-							= link_to "로그아웃", destroy_user_session_path, class: "btn btn-inverse", method: :delete, id: "logout"
+							= link_to "로그아웃", destroy_user_session_path, class: "btn btn-inverse", method: :delete, id: "logout", data: "logout"
 
 						- else
-							= link_to "로그인", new_user_session_path(), class: "btn btn-inverse", id: "login" 
+							= link_to "로그인", new_user_session_path(), class: "btn btn-inverse", id: "login"

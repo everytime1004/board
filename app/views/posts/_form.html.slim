@@ -1,4 +1,5 @@
-= nested_form_for @post, html: {multipart: true} do |f|
+= nested_form_for @post do |f|
+  script src="/javascripts/nested_form.js"
   - if @post.errors.any?
     #error_explanation
       h2 = "#{pluralize(@post.errors.count, "error")} prohibited this post from being saved:"
@@ -20,6 +21,6 @@
 
   = f.fields_for :photos do |builder|
     - render 'photos_fields', f: builder
-  = f.link_to_add "Add_photos", :photos
+  = f.link_to_add "Add_photos", :photos, id: "add_photos"
 
   .actions = f.submit 'Save'
