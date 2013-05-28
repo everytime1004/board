@@ -5,7 +5,8 @@ class Api::V1::GcmsController < ApplicationController
 
   def create
     reg_id = params[:gcm].select{|c| c == "reg_id"}.first.second
-    if Gcm.find_by_reg_id(reg_id).blank?
+    puts reg_id
+    if !Gcm.find_by_reg_id(reg_id)
       @gcm = Gcm.new(params[:gcm])
       if @gcm.save
         @gcm

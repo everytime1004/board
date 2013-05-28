@@ -34,7 +34,7 @@ class Api::V1::PostsController < ApplicationController
         tempFile.binmode
         tempFile.write(image)
 
-        uploaded_file = ActionDispatch::Http::UploadedFile.new(:tempfile => tempFile, :filename => "#{params[:post][:title]}_#{@post.id}_image_#{index+1}.jpg")
+        uploaded_file = ActionDispatch::Http::UploadedFile.new(:tempfile => tempFile, :filename => "#{params[:post][:title]}_image_#{index+1}.jpg")
         @post.photos.new(image: uploaded_file)
 
         tempFile.delete
@@ -72,8 +72,9 @@ class Api::V1::PostsController < ApplicationController
     @image_dir = []
 
     if @post.photos != []
-      @post.photos.count.times.each do |imageNum|
-        @image_dir << "http://115.68.27.117/uploads/photo/thumb_#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
+      @post.photos.each do |photo|
+        @image_dir << "http://172.30.1.19:3000#{photo.image}"
+        # @image_dir << "http://115.68.27.117/uploads/photo/thumb_#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://boardgeneration.herokuapp.com/uploads/photo/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # puts "http://192.168.0.74:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://theeye.pe.kr/attach/1/1181213948.jpg"

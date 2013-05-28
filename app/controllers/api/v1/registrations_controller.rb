@@ -1,3 +1,4 @@
+# encoding: utf-8
 class Api::V1::RegistrationsController < Devise::RegistrationsController
   skip_before_filter :verify_authenticity_token, :if => Proc.new{ |c| c.request.format == 'application/json' }
 
@@ -9,14 +10,15 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       sign_in resource
       render :status => 200,
            :json => { :success => true,
-                      :info => "Registered",
+                      :info => "회원가입이 되었습니다. 환영합니다!",
                       :data => { :user => resource,
                                  :auth_token => current_user.authentication_token } }
     else
-      render :status => :unprocessable_entity,
+      render :status => 200,
              :json => { :success => false,
                         :info => resource.errors,
-                        :data => {} }
+                        :data => { }
+                      }
     end
   end
 end

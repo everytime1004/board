@@ -1,6 +1,11 @@
 # encoding: utf-8
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  before_filter :set_locale
+
+  def set_locale
+    I18n.locale = params[:locale] if params[:locale].present?
+  end
 
   def user_session_check
     unless user_signed_in? || admin_signed_in?
