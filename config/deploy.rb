@@ -18,6 +18,10 @@ set :use_sudo, false
 set :normalize_asset_timestamps, false
 set :shared_children, shared_children + %w{public/uploads}
 
+set :unicorn_binary, "/usr/bin/unicorn"
+set :unicorn_config, "#{current_path}/config/unicorn.rb"
+set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
+
 default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
  
