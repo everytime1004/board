@@ -73,7 +73,7 @@ class Api::V1::PostsController < ApplicationController
 
     if @post.photos != []
       @post.photos.each do |photo|
-        @image_dir << "http://172.30.1.19:3000#{photo.image}"
+        @image_dir << "http://115.68.27.117#{photo.image}"
         # @image_dir << "http://115.68.27.117/uploads/photo/thumb_#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://boardgeneration.herokuapp.com/uploads/photo/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # puts "http://192.168.0.74:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
