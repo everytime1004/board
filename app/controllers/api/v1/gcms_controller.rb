@@ -6,25 +6,16 @@ class Api::V1::GcmsController < ApplicationController
   def create
     reg_id = params[:gcm].select{|c| c == "reg_id"}.first.second
     current_user = User.find_by_name(params[:gcm].select{|c| c == "userName"}.first.second)
-    puts reg_id
-    if !Gcm.find_by_reg_id(reg_id)
-      @gcm = current_user.build_gcm(reg_id: params[:gcm].select{|c| c == "reg_id"}.first.second, noty: params[:gcm].select{|c| c == "noty"}.first.second)
-      if @gcm.save
-        @gcm
-      else
-        render :status => 401,
-               :json => { :success => false,
-                          :info => 'Gcm reg_id not registered, try restart app',
-                          :data => {} }
-      end
+    
+    @gcm = current_user.build_gcm(reg_id: params[:gcm].select{|c| c == "reg_id"}.first.second, noty: params[:gcm].select{|c| c == "noty"}.first.second)
+    
+    if @gcm.save
+      @gcm
     else
-      noty = params[:gcm].select{|c| c == "noty"}.first.second
-      current_user.gcm.update_attributes(noty: noty)
-      # Gcm.find_by_reg_id(params[:gcm].select{|c| c == "reg_id"}.first.second).update_attributes(noty: noty)
-      render :status => 200,
-               :json => { :success => true,
-                          :info => 'Gcm reg_id is updated',
-                          :data => {} }
+      render :status => 401,
+             :json => { :success => false,
+                        :info => '서버에 GCM이 등록되지 않았습니다. 다시 시도 해주세요.',
+                        :data => {} }
     end
   end
 end
