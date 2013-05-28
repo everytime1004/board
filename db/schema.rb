@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20130423130400) do
   create_table "gcms", :force => true do |t|
     t.string   "reg_id"
     t.boolean  "noty",       :default => true
+    t.integer  "user_id"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
   end

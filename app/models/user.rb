@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
 
   has_many :posts, as: :postable, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_one :gcm, dependent: :destroy
 
   before_save :ensure_authentication_token, :combine_phone
 
