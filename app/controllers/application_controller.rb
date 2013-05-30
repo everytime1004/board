@@ -28,9 +28,16 @@ class ApplicationController < ActionController::Base
   	Gcm.all.each do |gcm|
   		regIdArray << gcm.reg_id if gcm.noty == true
   	end
+
+    ## check
+    # regIdArray.each do |regID|
+    #   puts regID
+    # end
+
   	regIdArray
   end
 
+  ## 새 글이 등록 됐을 때 push
   def send_notification_new_post
   	gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
     registration_ids = array_regId
@@ -38,21 +45,29 @@ class ApplicationController < ActionController::Base
     response = gcm.send_notification(registration_ids, options)
   end
 
+  ## 댓글이 추가 됐을 때 push
+  ## params : 글의 모든 댓글
   def send_notification_new_comment(comments)
     users = []
     regIdArray = []
-    users << User.find_all_by_id(comments.first.user_id).first.name
-    comments.each do |comment|
-      users << User.find_all_by_id(comment.user_id).first.name
-    end
-    Gcm.all.each do |gcm|
-      users.each do |user|
-        regIdArray << gcm.reg_id if gcm.noty == true
+    ## Post 글 주인(Post.find_all_by_id(comments.first.post_id).first)
+    if comments != []
+      users << User.find_all_by_id(Post.find_all_by_id(comments.first.post_id).first.user_id).first.name
+
+      Gcm.all.each do |gcm|
+        comments.each do |comment|
+          regIdArray << gcm.reg_id if (gcm.noty == true) && (gcm.user_id == comment.user_id) && regIdArray.index(gcm.reg_id) == nil
+        end
       end
     end
 
-    gcm = GCM.new("AIzaSyAFk13f06QBjz_m9VvYatCfZn6sOMnZ6rI")
-    registration_ids = array_regId
+    ## check
+    # regIdArray.each do |regID|
+    #   puts regID
+    # end
+
+    gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
+    registration_ids = regIdArray
     options = {data: {posts: "글에 댓글이 추가됐습니다."}, collapse_key: "updated_posts"}
     response = gcm.send_notification(registration_ids, options)
   end
@@ -61,36 +76,36 @@ class ApplicationController < ActionController::Base
     users = []
     regIdArray = []
     if comments != []
-      title = (Post.find_all_by_id(comments.first.post_id).first.user_id).first.title
-    end
+      title = Post.find_all_by_id(comments.first.post_id).first.title
 
-    comments.each do |comment|
-      users << User.find_all_by_id(comment.user_id).first.name
-    end
-    Gcm.all.each do |gcm|
-      users.each do |user|
-        regIdArray << gcm.reg_id if gcm.noty == true
+      users << User.find_all_by_id(Post.find_all_by_id(comments.first.post_id).first.user_id).first.name
+
+      Gcm.all.each do |gcm|
+        comments.each do |comment|
+          regIdArray << gcm.reg_id if (gcm.noty == true) && (gcm.user_id == comment.user_id) && regIdArray.index(gcm.reg_id) == nil
+        end
       end
     end
 
-    gcm = GCM.new("AIzaSyAFk13f06QBjz_m9VvYatCfZn6sOMnZ6rI")
-    registration_ids = array_regId
+    gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
+    registration_ids = regIdArray
     options = {data: {posts: "글 #{title}이 판매 완료 되었습니다."}, collapse_key: "updated_posts"}
     response = gcm.send_notification(registration_ids, options)
   end
 
   def send_notification_inquiry(user_id)
+    regIdArray = []
+
     user = User.find_all_by_id(user_id).first.name
 
     Gcm.all.each do |gcm|
-      regIdArray = gcm.reg_id if gcm.noty == true
+      regIdArray <<  gcm.reg_id if (gcm.noty == true) && (gcm.user_id == user_id)
     end
 
-    gcm = GCM.new("AIzaSyAFk13f06QBjz_m9VvYatCfZn6sOMnZ6rI")
-    registration_ids = array_regId
+    gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
+    registration_ids = regIdArray
     options = {data: {posts: "문의하신 글에 댓글이 추가되었습니다."}, collapse_key: "updated_posts"}
     response = gcm.send_notification(registration_ids, options)
-
   end
 
 end

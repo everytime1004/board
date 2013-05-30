@@ -79,10 +79,9 @@ class PostsController < ApplicationController
       @post = current_admin.posts.find(params[:id])
     end
 
-    send_notification_sell_complete(@post.comments) if @post.category == "판매 완료"
-
     respond_to do |format|
       if @post.update_attributes(params[:post])
+        send_notification_sell_complete(@post.comments) if @post.category == "판매 완료"
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { head :no_content }
       else

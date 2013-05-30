@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
   	@comment = Comment.new(params[:comment])
   	
   	if @comment.save
-  		if Post.find_all_by_id(@comment.post_id).first.category == ("문의" || "견적의뢰")
+  		if Post.find_all_by_id(@comment.post_id).first.category == ("문의 및 견적의뢰")
   			send_notification_inquiry(Post.find_all_by_id(@comment.post_id).first.user_id)
   		else
   			send_notification_new_comment(Post.find_all_by_id(@comment.post_id).first.comments)
