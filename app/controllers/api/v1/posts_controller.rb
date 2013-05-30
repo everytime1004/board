@@ -17,7 +17,7 @@ class Api::V1::PostsController < ApplicationController
   def create
     @images = []
     i = 1
-    until i==5 || params[:post]["#{:image}#{i}"] == nil
+    until i==6 || params[:post]["#{:image}#{i}"] == nil
       @images << Base64.decode64(params[:post]["#{:image}#{i}"])
       i += 1
     end
@@ -79,8 +79,6 @@ class Api::V1::PostsController < ApplicationController
         # puts "http://192.168.0.74:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://theeye.pe.kr/attach/1/1181213948.jpg"
       end
-
-      puts "image_dir #{@image_dir.length}"
 
       render :json => { :success => true,
                         :info => "",
