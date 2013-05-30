@@ -80,6 +80,8 @@ class Api::V1::PostsController < ApplicationController
         # @image_dir << "http://theeye.pe.kr/attach/1/1181213948.jpg"
       end
 
+      puts @image_dir
+
       render :json => { :success => true,
                         :info => "",
                         :data => {image: @image_dir} }
