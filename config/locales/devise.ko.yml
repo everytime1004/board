@@ -1,6 +1,11 @@
 # Additional translations at https://github.com/plataformatec/devise/wiki/I18n
 
 ko:
+  views:
+    pagination:
+      previous: "&lt; Previous"
+      next: "Next &gt;"
+      truncate: "&hellip;&rdquo;"
   devise:
     failure:
       already_authenticated: '이미 로그인 되어있습니다.'

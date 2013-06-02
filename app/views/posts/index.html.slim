@@ -20,7 +20,7 @@ br/
           td width="15%" = "관리자"
           td width="15%" = notice.created_at.strftime("%Y/%m/%d")
           td width="10%" = notice.count
-      
+
       - @posts.each do |post|
         tr align="center"
           td width="20%" = post.category
@@ -32,3 +32,5 @@ br/
 .write-form
   - if user_signed_in?
     = button_to "글쓰기", new_post_path, method: :get, class: "btn btn-info", id: "write"
+
+  = paginate @posts_pagination

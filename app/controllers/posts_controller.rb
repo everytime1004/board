@@ -6,7 +6,9 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
+    # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
+    @posts_pagination = Post.order("id").page(params[:page]).per(13)
+    @posts = Post.order("id").page(params[:page]).per(13).delete_if { |post| post.category == "공지사항"}
     @notices = Post.find_all_by_category("공지사항")
 
     respond_to do |format|

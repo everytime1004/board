@@ -10,5 +10,5 @@ class Admin < ActiveRecord::Base
   # attr_accessible :title, :body
 
   has_many :posts, as: :postable, dependent: :destroy
-  has_many :tasks
+  has_many :comments, dependent: :destroy
 end

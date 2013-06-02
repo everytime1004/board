@@ -3,13 +3,12 @@ Board::Application.routes.draw do
   devise_for :admins, path_names: {sign_in: "login", sign_out: "logout"}, controllers: {sessions: "admins"} do
     match '/admins' => 'admins#index'
     match "/admins/posts" => "admins#show_posts"
-    match "/admins/weekplans" => "admins#show_weekplans"
 
-    get '/admins/logout' => 'devise/sessions#destroy'
+    get '/admins/logout' => 'admins/sessions#destroy'
   end
   
   devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}, controllers: {omniauth_callbacks: "omniauth_callbacks"} do
-    get '/users/logout' => 'devise/sessions#destroy'
+    get '/users/logout' => 'users/sessions#destroy'
   end
 
   resources :posts do
