@@ -12,7 +12,12 @@ jQuery ->
 		$('.comments_add').slideToggle()
 
 	$('#add_photos').on 'click', (event) ->
-		imageNum = $('fieldset').length
+		i = 0
+		imageNum = 0
+		attr = document.getElementsByClassName('fields')
+		for i in [0...attr.length]
+			if attr[i].style.display != 'none'
+				imageNum += 1
 		if imageNum >= 5
 			alert("사진은 5개까지 추가가 가능합니다.")
 			return false
