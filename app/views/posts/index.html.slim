@@ -4,30 +4,50 @@ br/
 - if flash[:notice]
   p#notice= flash[:notice]
 
-.board
-  table.table-bordered.table-striped.table-hover align="center"
+.board id="board_notice"
+  table.table-bordered.table-striped.table-hover
     tr align="center"
-      th width="20%" 분류
-      th width="40%" 제목
-      th width="15%" 글쓴이
-      th width="15%" 등록일
-      th width="10%" 조회
+      th width="15%" 공지사항
 
       - @notices.each do |notice|
         tr align="center"
-          td id="notice" width="20%" = notice.category
-          td width="40%" = link_to "#{notice.title}", post_path(id: notice.id)
-          td width="15%" = "관리자"
-          td width="15%" = notice.created_at.strftime("%Y/%m/%d")
-          td width="10%" = notice.count
+          td id="notice" width="15%" = link_to "#{notice.title}", post_path(id: notice.id)
 
-      - @posts.each do |post|
+.board id="board_buy"
+  table.table-bordered.table-striped.table-hover
+    tr align="center"
+      th width="15%" 삽니다
+
+      - @posts_buy.each do |post_buy|
         tr align="center"
-          td width="20%" = post.category
-          td width="40%" = link_to "#{post.title}", post_path(id: post.id)
-          td width="15%" = User.where(id: post.user_id).first.name
-          td width="15%" = post.created_at.strftime("%Y/%m/%d")
-          td width="10%" = post.count
+          td width="15%" = link_to "#{post_buy.title}", post_path(id: post_buy.id)
+
+.board
+  table.table-bordered.table-striped.table-hover
+    tr align="center"
+      th width="15%" 팝니다
+
+      - @posts_sell.each do |post_sell|
+        tr align="center"
+          td width="15%" = link_to "#{post_sell.title}", post_path(id: post_sell.id)
+
+.board
+  table.table-bordered.table-striped.table-hover
+    tr align="center"
+      th width="15%" 문의 및 견적의뢰
+
+      - @posts_inquiry.each do |post_inquiry|
+        tr align="center"
+          td width="15%" = link_to "#{post_inquiry.title}", post_path(id: post_inquiry.id)
+
+.board
+  table.table-bordered.table-striped.table-hover
+    tr align="center"
+      th width="15%" 판매완료
+
+      - @posts_sellComplete.each do |post_sellComplete|
+        tr align="center"
+          td width="15%" = link_to "#{post_sellComplete.title}", post_path(id: post_sellComplete.id)
 
 .write-form
   - if user_signed_in?

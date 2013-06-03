@@ -8,7 +8,10 @@ class PostsController < ApplicationController
   def index
     # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
     @posts_pagination = Post.order("id").page(params[:page]).per(13)
-    @posts = Post.order("id").page(params[:page]).per(13).delete_if { |post| post.category == "공지사항"}
+    @posts_buy = Post.find(:all, :conditions => ["category IN (?)", "삽니다"])
+    @posts_sell = Post.find(:all, :conditions => ["category IN (?)", "팝니다"])
+    @posts_inquiry = Post.find(:all, :conditions => ["category IN (?)", "문의 및 견적의뢰"])
+    @posts_sellComplete = Post.find(:all, :conditions => ["category IN (?)", "판매완료"])
     @notices = Post.find_all_by_category("공지사항")
 
     respond_to do |format|
