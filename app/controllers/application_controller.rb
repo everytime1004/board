@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   def send_notification_new_post(post_title)
   	gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
     registration_ids = array_regId
-    options = {data: {posts: "새 글 #{post_title}이 등록 되었습니다."}, collapse_key: "updated_posts"}
+    options = {data: {posts: "새 글 #{post_title} 등록 되었습니다."}, collapse_key: "updated_posts"}
     response = gcm.send_notification(registration_ids, options)
   end
 
@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
 
     gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
     registration_ids = regIdArray
-    options = {data: {posts: "글에 댓글이 추가됐습니다."}, collapse_key: "updated_posts"}
+    options = {data: {posts: "글 #{Post.find_by_id(comments.post_id).title}에 댓글이 추가됐습니다."}, collapse_key: "updated_posts"}
     response = gcm.send_notification(registration_ids, options)
   end
 
