@@ -11,7 +11,8 @@ class Api::V1::SessionsController < Devise::SessionsController
            :json => { :success => true,
                       :info => "로그인 되셨습니다.",
                       :data => { :auth_token => current_user.authentication_token,
-                                 :userName => current_user.name } }
+                                 :userName => current_user.name,
+                                 :user_id => current_user.id } }  
   end
 
   def destroy
@@ -25,7 +26,7 @@ class Api::V1::SessionsController < Devise::SessionsController
 
   def failure
     render :status => 401,
-           :json => { :success => false,
+           :json => { :success => true,
                       :info => "로그인 실패. 다시 시도해 주세요.",
                       :data => {} }
   end

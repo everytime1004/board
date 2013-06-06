@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20130423130400) do
     t.integer  "user_id"
     t.integer  "post_id"
     t.text     "contents"
+    t.text     "author"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -66,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20130423130400) do
     t.text     "description"
     t.string   "category"
     t.integer  "count",         :default => 0
+    t.string   "author"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
   end

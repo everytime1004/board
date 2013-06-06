@@ -4,8 +4,8 @@ br/
 - if flash[:notice]
   p#notice= flash[:notice]
 
-.board id="board_notice"
-  table.table-bordered.table-striped.table-hover
+.board
+  table.table-bordered.table-striped.table-hover id="index_board"
     tr align="center"
       th width="15%" 공지사항
 
@@ -13,8 +13,8 @@ br/
         tr align="center"
           td id="notice" width="15%" = link_to "#{notice.title}", post_path(id: notice.id)
 
-.board id="board_buy"
-  table.table-bordered.table-striped.table-hover
+.board
+  table.table-bordered.table-striped.table-hover id="index_board"
     tr align="center"
       th width="15%" 삽니다
 
@@ -23,7 +23,7 @@ br/
           td width="15%" = link_to "#{post_buy.title}", post_path(id: post_buy.id)
 
 .board
-  table.table-bordered.table-striped.table-hover
+  table.table-bordered.table-striped.table-hover id="index_board"
     tr align="center"
       th width="15%" 팝니다
 
@@ -32,7 +32,7 @@ br/
           td width="15%" = link_to "#{post_sell.title}", post_path(id: post_sell.id)
 
 .board
-  table.table-bordered.table-striped.table-hover
+  table.table-bordered.table-striped.table-hover id="index_board"
     tr align="center"
       th width="15%" 문의 및 견적의뢰
 
@@ -41,7 +41,7 @@ br/
           td width="15%" = link_to "#{post_inquiry.title}", post_path(id: post_inquiry.id)
 
 .board
-  table.table-bordered.table-striped.table-hover
+  table.table-bordered.table-striped.table-hover id="index_board"
     tr align="center"
       th width="15%" 판매완료
 

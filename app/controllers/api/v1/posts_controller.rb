@@ -6,7 +6,7 @@ class Api::V1::PostsController < ApplicationController
   before_filter :authenticate_user!
 
   def index  
-    @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
+    @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"]).reverse
     @notices = Post.find_all_by_category("공지사항")
 
     @posts = @notices + @posts
@@ -24,10 +24,9 @@ class Api::V1::PostsController < ApplicationController
 
     @post = current_user.posts.build(title: params[:post][:title], category: params[:post][:category], description: params[:post][:description])
     @post.update_attributes(user_id: current_user.id)
+    @post.update_attributes(author: current_user.name)
     
     if @post.save
-      send_notification_new_post
-
       ## 여기는 heroku 올리기 전 코드
       @images.each_with_index do |image, index|
         tempFile = Tempfile.new("tempFile")
@@ -51,11 +50,12 @@ class Api::V1::PostsController < ApplicationController
       # end
 
       if @post.save
+        send_notification_new_post(@post.title)
         @post
       else
         render :status => :unprocessable_entity,
              :json => { :success => false,
-                        :info => @post.errors,
+                        :info => "사진 등록이 실패 했습니다.",
                         :data => {} }
         @post.destroy
       end
@@ -89,5 +89,19 @@ class Api::V1::PostsController < ApplicationController
                         :data => {} }
     end
 
+  end
+
+  def show_comments
+    @comments = Post.find_all_by_id(params[:id]).first.comments
+
+    if @comments != []
+
+      @comments
+      
+    else
+      render :json => { :success => true,
+                        :info => "이 게시물은 댓글이 없습니다.",
+                        :data => {} }
+    end
   end
 end

@@ -8,10 +8,10 @@ class PostsController < ApplicationController
   def index
     # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
     @posts_pagination = Post.order("id").page(params[:page]).per(13)
-    @posts_buy = Post.find(:all, :conditions => ["category IN (?)", "삽니다"])
-    @posts_sell = Post.find(:all, :conditions => ["category IN (?)", "팝니다"])
-    @posts_inquiry = Post.find(:all, :conditions => ["category IN (?)", "문의 및 견적의뢰"])
-    @posts_sellComplete = Post.find(:all, :conditions => ["category IN (?)", "판매완료"])
+    @posts_buy = Post.find(:all, :conditions => ["category IN (?)", "삽니다"]).reverse
+    @posts_sell = Post.find(:all, :conditions => ["category IN (?)", "팝니다"]).reverse
+    @posts_inquiry = Post.find(:all, :conditions => ["category IN (?)", "문의 및 견적의뢰"]).reverse
+    @posts_sellComplete = Post.find(:all, :conditions => ["category IN (?)", "판매완료"]).reverse
     @notices = Post.find_all_by_category("공지사항")
 
     respond_to do |format|
@@ -57,12 +57,13 @@ class PostsController < ApplicationController
     if user_signed_in?
       @post = current_user.posts.new(params[:post])
       @post.update_attributes(user_id: current_user.id)
+      @post.update_attributes(author: current_user.name)
 
     else
       @post = current_admin.posts.new(params[:post])
     end
 
-    send_notification_new_post
+    send_notification_new_post(@post.title)
 
     respond_to do |format|
       if @post.save

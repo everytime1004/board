@@ -6,8 +6,14 @@ class Api::V1::GcmsController < ApplicationController
   def create
     reg_id = params[:gcm].select{|c| c == "reg_id"}.first.second
     current_user = User.find_by_name(params[:gcm].select{|c| c == "userName"}.first.second)
-    
-    @gcm = current_user.build_gcm(reg_id: params[:gcm].select{|c| c == "reg_id"}.first.second, noty: params[:gcm].select{|c| c == "noty"}.first.second)
+
+    ## 똑같은 reg_id(기기가 같으면 똑같음)가 있으면 그것을 지우고 다시 등록
+    ## 아니면 새로 등록
+    if @gcm = Gcm.find_by_reg_id(reg_id)
+      @gcm.destroy
+    else
+      @gcm = current_user.build_gcm(reg_id: params[:gcm].select{|c| c == "reg_id"}.first.second, noty: params[:gcm].select{|c| c == "noty"}.first.second)
+    end
     
     if @gcm.save
       @gcm

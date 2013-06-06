@@ -7,6 +7,7 @@ class CreateComments < ActiveRecord::Migration
     	t.references :post
 
       t.text :contents
+      t.text :author
 
       t.timestamps
     end

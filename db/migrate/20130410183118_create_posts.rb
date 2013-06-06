@@ -11,6 +11,7 @@ class CreatePosts < ActiveRecord::Migration
       t.text :description
       t.string :category
       t.integer :count, default: 0
+      t.string :author
 
       t.timestamps
     end

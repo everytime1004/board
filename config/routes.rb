@@ -26,7 +26,9 @@ Board::Application.routes.draw do
       end
       get 'posts' => 'posts#index', :as => 'posts'
       get 'posts/:id' => 'posts#show'
+      get 'comments/:id' => 'posts#show_comments'
       post 'posts' => 'posts#create'
+      post 'comments' => 'comments#create'
       post 'gcms' => 'gcms#create'
     end
   end 

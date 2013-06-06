@@ -12,7 +12,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
            :json => { :success => true,
                       :info => "회원가입이 되었습니다. 환영합니다!",
                       :data => { :user => resource,
-                                 :auth_token => current_user.authentication_token } }
+                                 :auth_token => current_user.authentication_token,
+                                 :user_id => current_user.id } }
     else
       render :status => 200,
              :json => { :success => false,

@@ -38,10 +38,10 @@ class ApplicationController < ActionController::Base
   end
 
   ## 새 글이 등록 됐을 때 push
-  def send_notification_new_post
+  def send_notification_new_post(post_title)
   	gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
     registration_ids = array_regId
-    options = {data: {posts: "새 글이 등록 되었습니다."}, collapse_key: "updated_posts"}
+    options = {data: {posts: "새 글 #{post_title}이 등록 되었습니다."}, collapse_key: "updated_posts"}
     response = gcm.send_notification(registration_ids, options)
   end
 
@@ -51,6 +51,7 @@ class ApplicationController < ActionController::Base
     users = []
     regIdArray = []
     ## Post 글 주인(Post.find_all_by_id(comments.first.post_id).first)
+
     if comments != []
       users << User.find_all_by_id(Post.find_all_by_id(comments.first.post_id).first.user_id).first.name
 
