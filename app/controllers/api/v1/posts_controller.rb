@@ -61,7 +61,7 @@ class Api::V1::PostsController < ApplicationController
       end
     else
       render :status => :unprocessable_entity,
-             :json => { :success => false,
+             :json => { :success => true,
                         :info => @post.errors,
                         :data => {} }
     end
