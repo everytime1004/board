@@ -39,16 +39,6 @@ class Api::V1::PostsController < ApplicationController
         tempFile.delete
       end
 
-      # @images.each_with_index do |image, index|
-      #   File.open("public/uploads/photo_phone/#{params[:post][:title].encoding}_#{@post.id}_image_#{index+1}.jpg", 'wb') do |f|
-      #     f.write(image)
-      #   end
-      # end
-
-      # (@images.count).times.each do |imageNum|
-      #   @post.photos.new(image: File.open("public/uploads/photo_phone/#{params[:post][:title].encoding}_#{@post.id}_image_#{imageNum+1}.jpg", 'rb'))
-      # end
-
       if @post.save
         send_notification_new_post(@post.title)
         @post
