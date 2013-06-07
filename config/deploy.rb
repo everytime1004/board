@@ -3,7 +3,7 @@ require "bundler/capistrano"
 set :application, "board"
 
 set :scm, :git
-set :repository,  "https://github.com/everytime1004/board.git"
+set :repository,  "https://github.com/plaredspear/smt_board_project.git"
 set :branch, "master"
 
 # set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names

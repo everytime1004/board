@@ -62,11 +62,6 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    ## check
-    # regIdArray.each do |regID|
-    #   puts regID
-    # end
-
     gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
     registration_ids = regIdArray
     options = {data: {posts: "글 #{Post.find_by_id(comments.post_id).title}에 댓글이 추가됐습니다."}, collapse_key: "updated_posts"}
