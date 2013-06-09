@@ -9,8 +9,10 @@ class Api::V1::GcmsController < ApplicationController
 
     ## 똑같은 reg_id(기기가 같으면 똑같음)가 있으면 그것을 지우고 다시 등록
     ## 아니면 새로 등록
-    if @gcm = Gcm.find_by_reg_id(reg_id)
+    if Gcm.find_by_reg_id(reg_id) != nil
+      @gcm = Gcm.find_by_reg_id(reg_id)
       @gcm.destroy
+      @gcm = current_user.build_gcm(reg_id: params[:gcm].select{|c| c == "reg_id"}.first.second, noty: params[:gcm].select{|c| c == "noty"}.first.second)
     else
       @gcm = current_user.build_gcm(reg_id: params[:gcm].select{|c| c == "reg_id"}.first.second, noty: params[:gcm].select{|c| c == "noty"}.first.second)
     end

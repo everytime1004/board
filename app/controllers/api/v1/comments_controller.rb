@@ -8,9 +8,9 @@ class Api::V1::CommentsController < ApplicationController
     
     if @comment.save
       if Post.find_all_by_id(@comment.post_id).first.category == ("문의 및 견적의뢰")
-        send_notification_inquiry(Post.find_all_by_id(@comment.post_id).first.user_id)
+        send_notification_inquiry(Post.find_by_id(@comment.post_id))
       else
-        send_notification_new_comment(Post.find_all_by_id(@comment.post_id).first.comments)
+        send_notification_new_comment(Post.find_by_id(@comment.post_id).comments)
       end
       render :json => { :success => true,
                         :info => "댓글이 추가되었습니다.",

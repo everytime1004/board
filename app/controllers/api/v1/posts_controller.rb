@@ -40,7 +40,7 @@ class Api::V1::PostsController < ApplicationController
       end
 
       if @post.save
-        send_notification_new_post(@post.title)
+        send_notification_new_post(@post)
         @post
       else
         render :status => :unprocessable_entity,

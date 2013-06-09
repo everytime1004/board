@@ -7,7 +7,7 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
-    @posts_pagination = Post.order("id").page(params[:page]).per(13)
+    # @posts_pagination = Post.order("id").page(params[:page]).per(13)
     @posts_buy = Post.find(:all, :conditions => ["category IN (?)", "삽니다"]).reverse
     @posts_sell = Post.find(:all, :conditions => ["category IN (?)", "팝니다"]).reverse
     @posts_inquiry = Post.find(:all, :conditions => ["category IN (?)", "문의 및 견적의뢰"]).reverse
@@ -63,7 +63,7 @@ class PostsController < ApplicationController
       @post = current_admin.posts.new(params[:post])
     end
 
-    send_notification_new_post(@post.title)
+    send_notification_new_post(@post)
 
     respond_to do |format|
       if @post.save
