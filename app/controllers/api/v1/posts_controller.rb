@@ -63,7 +63,8 @@ class Api::V1::PostsController < ApplicationController
 
     if @post.photos != []
       @post.photos.each do |photo|
-        @image_dir << "http://115.68.27.117#{photo.image}"
+        @image_dir << "http://192.168.200.170:3000#{photo.image}"
+        # @image_dir << "http://115.68.27.117#{photo.image}"
         # @image_dir << "http://115.68.27.117/uploads/photo/thumb_#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://boardgeneration.herokuapp.com/uploads/photo/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # puts "http://192.168.0.74:3000/uploads/photo_phone/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
@@ -81,11 +82,12 @@ class Api::V1::PostsController < ApplicationController
 
   end
 
+
+
   def show_comments
     @comments = Post.find_all_by_id(params[:id]).first.comments
 
     if @comments != []
-
       @comments
       
     else
@@ -94,4 +96,62 @@ class Api::V1::PostsController < ApplicationController
                         :data => {} }
     end
   end
+
+
+
+  def show_posts_last
+    if params[:id]
+      # 전달받은 id로부터 하위 10개의 post model을 역순으로 가져옴.
+      @offset = params[:id].to_i
+    else
+      @offset = Post.last.id
+    end
+
+    @post = Post.where(:category => params[:category], :id => [(@offset-10)..@offset]).reverse
+
+
+
+    if @post != []
+      @post
+
+      render :json => { :success => true,
+                        :info => "",
+                        :post => {post: @post} }
+    else
+      render :json => { :success => true,
+                        :info => "이 게시물은 글이 없습니다.",
+                        :data => {} }
+    end
+  end
+
+
+  # In progress..
+  def search_by_title
+    # if params[:id]
+    #   # 전달받은 id로부터 하위 10개의 post model을 역순으로 가져옴.
+    #   @offset = params[:id].to_i
+    # else
+    #   @offset = Post.last.id
+    # end
+
+    @post = Post.where("title LIKE ?", "%#{params[:title]}%")
+    if params[:id]
+      @post = @post.where(:id => params[:id])
+    end
+
+    if @post != []
+      @post
+
+      render :json => { :success => true,
+                        :info => "",
+                        :post => {post: @post} }
+    else
+      render :json => { :success => true,
+                        :info => "관련된 제목의 글이 없습니다.",
+                        :data => {} }
+    end
+
+  end
+
+
 end
