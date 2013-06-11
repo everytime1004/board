@@ -20,8 +20,8 @@ class AdminsController < Devise::SessionsController
   end
 
   def show_posts
-  	@posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
-    @notices = Post.find_all_by_category("공지사항")
+  	@posts = Post.find(:all, :conditions => ["category NOT IN (?)", "notice"])
+    @notices = Post.find_all_by_category("notice")
   end
 
 end

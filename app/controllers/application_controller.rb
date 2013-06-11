@@ -114,4 +114,10 @@ class ApplicationController < ActionController::Base
     response = gcm.send_notification(registration_ids, options)
   end
 
+  def changeCategory(category)
+    list = {"buy" => "삽니다", "sell" => "팝니다", "sellComplete" => "판매 완료", "inquiry" => "문의 및 견적의뢰", "notice" => "공지사항" }
+
+    list.key(category)
+  end
+
 end

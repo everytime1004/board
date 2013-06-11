@@ -8,11 +8,11 @@ class PostsController < ApplicationController
   def index
     # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
     # @posts_pagination = Post.order("id").page(params[:page]).per(13)
-    @posts_buy = Post.find(:all, :conditions => ["category IN (?)", "삽니다"]).reverse
-    @posts_sell = Post.find(:all, :conditions => ["category IN (?)", "팝니다"]).reverse
-    @posts_inquiry = Post.find(:all, :conditions => ["category IN (?)", "문의 및 견적의뢰"]).reverse
-    @posts_sellComplete = Post.find(:all, :conditions => ["category IN (?)", "판매완료"]).reverse
-    @notices = Post.find_all_by_category("공지사항")
+    @posts_buy = Post.find(:all, :conditions => ["category IN (?)", "buy"]).reverse
+    @posts_sell = Post.find(:all, :conditions => ["category IN (?)", "sell"]).reverse
+    @posts_inquiry = Post.find(:all, :conditions => ["category IN (?)", "inquiry"]).reverse
+    @posts_sellComplete = Post.find(:all, :conditions => ["category IN (?)", "sellComplete"]).reverse
+    @notices = Post.find_all_by_category("notice")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -59,6 +59,9 @@ class PostsController < ApplicationController
       @post.update_attributes(user_id: current_user.id)
       @post.update_attributes(author: current_user.name)
 
+      category = changeCategory(params[:post][:category])
+      @post.update_attributes(category: category)
+
     else
       @post = current_admin.posts.new(params[:post])
     end
@@ -87,6 +90,9 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.update_attributes(params[:post])
+        category = changeCategory(params[:post][:category])
+        @post.update_attributes(category: category)
+        @post.save
         send_notification_sell_complete(@post.comments) if @post.category == "판매 완료"
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { head :no_content }

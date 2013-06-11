@@ -17,6 +17,7 @@ Board::Application.routes.draw do
 
   root to: 'posts#index'
 
+  # api/vi/registrations
   namespace :api do
     namespace :v1 do
       devise_scope :user do
@@ -24,6 +25,9 @@ Board::Application.routes.draw do
         post 'sessions' => 'sessions#create', :as => 'login'
         delete 'sessions' => 'sessions#destroy', :as => 'logout'
       end
+
+      # api/v1/posts/
+      # api/v1/posts
       get 'posts' => 'posts#index', :as => 'posts'
       get 'posts/:id' => 'posts#show'
       get 'comments/:id' => 'posts#show_comments'
@@ -34,8 +38,13 @@ Board::Application.routes.draw do
 
       delete 'posts/:id' => 'posts#destroy'
       delete 'comments/:id' => 'comments#destroy'
+
+      # In progress..
+      get 'search_by_title/:title' => 'posts#search_by_title'
+      get 'search_by_title/:title/:id' => 'posts#search_by_title'
+
     end
-  end 
+  end
 
   post "comments/create"
 

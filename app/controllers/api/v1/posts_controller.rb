@@ -6,12 +6,31 @@ class Api::V1::PostsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"]).reverse
-    @notices = Post.find_all_by_category("공지사항")
+    if params[:offset_id]
+      # 전달받은 id로부터 하위 10개의 post model을 역순으로 가져옴.
+      @offset = params[:offset_id].to_i
+    else
+      @offset = Post.last.id
+    end
 
-    @posts = @notices + @posts
+    puts params[:category]
 
-    @posts
+    @posts = Post.where(:category => params[:category], :id => [(@offset-9)..(@offset)]).reverse
+
+
+    if @post != []
+      @posts
+    else
+      render :json => { :success => true,
+                        :info => "이 게시물은 글이 없습니다.",
+                        :data => {} }
+    end
+    # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"]).reverse
+    # @notices = Post.find_all_by_category("공지사항")
+
+    # @posts = @notices + @posts
+
+    # @posts
   end
 
   def create
@@ -64,6 +83,7 @@ class Api::V1::PostsController < ApplicationController
 
     if @post.photos != []
       @post.photos.each do |photo|
+        # @image_dir << "http://192.168.200.170:3000#{photo.image}"
         @image_dir << "http://115.68.27.117#{photo.image}"
         # @image_dir << "http://115.68.27.117/uploads/photo/thumb_#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
         # @image_dir << "http://boardgeneration.herokuapp.com/uploads/photo/#{@post.title}_#{@post.id}_image_#{imageNum+1}.jpg"
@@ -96,7 +116,6 @@ class Api::V1::PostsController < ApplicationController
     @comments = Post.find_all_by_id(params[:id]).first.comments
 
     if @comments != []
-
       @comments
       
     else
@@ -105,4 +124,34 @@ class Api::V1::PostsController < ApplicationController
                         :data => {} }
     end
   end
+
+  # In progress..
+  def search_by_title
+    # if params[:id]
+    #   # 전달받은 id로부터 하위 10개의 post model을 역순으로 가져옴.
+    #   @offset = params[:id].to_i
+    # else
+    #   @offset = Post.last.id
+    # end
+
+    @post = Post.where("title LIKE ?", "%#{params[:title]}%")
+    if params[:id]
+      @post = @post.where(:id => params[:id])
+    end
+
+    if @post != []
+      @post
+
+      render :json => { :success => true,
+                        :info => "",
+                        :post => {post: @post} }
+    else
+      render :json => { :success => true,
+                        :info => "관련된 제목의 글이 없습니다.",
+                        :data => {} }
+    end
+
+  end
+
+
 end

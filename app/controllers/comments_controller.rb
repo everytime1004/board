@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
     @comment.update_attributes(author: current_user.name)
   	
   	if @comment.save
-  		if Post.find_all_by_id(@comment.post_id).first.category == ("문의 및 견적의뢰")
+  		if Post.find_all_by_id(@comment.post_id).first.category == ("inquiry")
   			send_notification_inquiry(Post.find_by_id(@comment.post_id))
   		else
   			send_notification_new_comment(Post.find_by_id(@comment.post_id).comments)
