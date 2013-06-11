@@ -4,6 +4,6 @@ node (:info) { 'ok' }
 child :data do
   node (:comments_count) { @comments.size }
   child @comments do
-    attributes :author, :contents, :updated_at
+    attributes :id, :author, :contents, :updated_at
   end
 end

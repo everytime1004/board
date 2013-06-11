@@ -5,7 +5,7 @@ class Api::V1::PostsController < ApplicationController
 
   before_filter :authenticate_user!
 
-  def index  
+  def index
     @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"]).reverse
     @notices = Post.find_all_by_category("공지사항")
 
@@ -18,6 +18,7 @@ class Api::V1::PostsController < ApplicationController
     @images = []
     i = 1
     until i==6 || params[:post]["#{:image}#{i}"] == nil
+
       @images << Base64.decode64(params[:post]["#{:image}#{i}"])
       i += 1
     end
@@ -79,6 +80,16 @@ class Api::V1::PostsController < ApplicationController
                         :data => {} }
     end
 
+  end
+
+  def destroy
+    # current_user.posts.find_by_id(params[:id])
+    @post = current_user.posts.find_by_id(params[:id])
+    @post.destroy
+
+    render :json => { :success => true,
+                        :info => "글이 삭제 되었습니다.",
+                        :data => {}}
   end
 
   def show_comments

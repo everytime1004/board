@@ -21,4 +21,13 @@ class Api::V1::CommentsController < ApplicationController
                         :data => {} }
     end
   end
+
+  def destroy
+    @comments = Comment.find(params[:id])
+    @comments.destroy
+
+    render :json => { :success => true,
+                        :info => "댓글이 삭제 되었습니다.",
+                        :data => {} }
+  end
 end
