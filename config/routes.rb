@@ -33,6 +33,7 @@ Board::Application.routes.draw do
       get 'comments/:id' => 'posts#show_comments'
 
       post 'posts' => 'posts#create'
+      post 'posts_search' => 'posts#index_search'
       post 'comments' => 'comments#create'
       post 'gcms' => 'gcms#create'
 

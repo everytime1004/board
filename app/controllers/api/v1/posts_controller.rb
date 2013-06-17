@@ -13,10 +13,11 @@ class Api::V1::PostsController < ApplicationController
       @offset = Post.last.id
     end
 
-    puts params[:category]
-
-    @posts = Post.where(:category => params[:category], :id => [(@offset-9)..(@offset)]).reverse
-
+    if params[:category]=="sell"
+      @posts = Post.find(:all, :conditions => ["category IN (?) OR category IN (?)", "sell", "sellComplete"]).reverse
+    else  
+      @posts = Post.where(:category => params[:category], :id => [(@offset-9)..(@offset)]).reverse
+    end
 
     if @post != []
       @posts
@@ -25,12 +26,18 @@ class Api::V1::PostsController < ApplicationController
                         :info => "이 게시물은 글이 없습니다.",
                         :data => {} }
     end
-    # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"]).reverse
-    # @notices = Post.find_all_by_category("공지사항")
+  end
 
-    # @posts = @notices + @posts
+  def index_search
+    @posts = Post.find(:all, :conditions => ["category IN (?) AND (title IN (?) OR author IN (?))", params[:post][:category], params[:post][:searching], params[:post][:searching]]).reverse
 
-    # @posts
+    if @post != []
+      @posts
+    else
+      render :json => { :success => true,
+                        :info => "찾으시는 글이 없습니다.",
+                        :data => {} }
+    end
   end
 
   def create

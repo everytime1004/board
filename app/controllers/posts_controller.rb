@@ -9,9 +9,9 @@ class PostsController < ApplicationController
     # @posts = Post.find(:all, :conditions => ["category NOT IN (?)", "공지사항"])
     # @posts_pagination = Post.order("id").page(params[:page]).per(13)
     @posts_buy = Post.find(:all, :conditions => ["category IN (?)", "buy"]).reverse
-    @posts_sell = Post.find(:all, :conditions => ["category IN (?)", "sell"]).reverse
+    @posts_sell = Post.find(:all, :conditions => ["category IN (?) OR category IN (?)", "sell", "sellComplete"]).reverse
     @posts_inquiry = Post.find(:all, :conditions => ["category IN (?)", "inquiry"]).reverse
-    @posts_sellComplete = Post.find(:all, :conditions => ["category IN (?)", "sellComplete"]).reverse
+    @posts_recruit = Post.find(:all, :conditions => ["category IN (?)", "recruit"]).reverse
     @notices = Post.find_all_by_category("notice")
 
     respond_to do |format|
@@ -70,7 +70,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.html { redirect_to @post, notice: '글이 성공적으로 생성됐습니다.' }
         format.json { render json: @post, status: :created, location: @post }
       else
         format.html { render action: "new" }
@@ -92,9 +92,10 @@ class PostsController < ApplicationController
       if @post.update_attributes(params[:post])
         category = changeCategory(params[:post][:category])
         @post.update_attributes(category: category)
+
         @post.save
-        send_notification_sell_complete(@post.comments) if @post.category == "판매 완료"
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+        send_notification_sell_complete(@post.comments) if @post.category == "sellComplete"
+        format.html { redirect_to @post, notice: '글 수정이 완료 됐습니다.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

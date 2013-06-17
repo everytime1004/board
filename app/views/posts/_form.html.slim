@@ -12,7 +12,7 @@
 
   = f.label :category
   - if user_signed_in?
-    = f.select :category, [["삽니다"], ["팝니다"], ["판매 완료"], ["문의 및 견적의뢰"]]
+    = f.select :category, [["삽니다"], ["팝니다"], ["판매 완료"], ["문의 및 견적의뢰"], ["구인 구직"]]
   - else
     = f.select :category, [["공지사항"], ["etc"]]
 

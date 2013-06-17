@@ -43,11 +43,11 @@ br/
 .board
   table.table-bordered.table-striped.table-hover id="index_board"
     tr align="center"
-      th width="15%" 판매완료
+      th width="15%" 구인 구직
 
-      - @posts_sellComplete.each do |post_sellComplete|
+      - @posts_recruit.each do |post_recruit|
         tr align="center"
-          td width="15%" = link_to "#{post_sellComplete.title}", post_path(id: post_sellComplete.id)
+          td width="15%" = link_to "#{post_recruit.title}", post_path(id: post_recruit.id)
 
 .write-form
   - if user_signed_in?

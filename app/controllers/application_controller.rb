@@ -87,16 +87,16 @@ class ApplicationController < ActionController::Base
           regIdArray << gcm.reg_id if (gcm.noty == true) && (gcm.user_id == comment.user_id) && regIdArray.index(gcm.reg_id) == nil
         end
       end
+
+      post = Post.find_by_id(comments.first.post_id)
+
+      gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
+      registration_ids = regIdArray
+      options = {data: {message: "글 #{post.title}이 판매 완료 되었습니다.",
+      category: post.category, title: post.title, description: post.description, post_id: post.id}, 
+      collapse_key: "updated_posts"}
+      response = gcm.send_notification(registration_ids, options)
     end
-
-    post = Post.find_by_id(comments.first.post_id)
-
-    gcm = GCM.new("AIzaSyBrSeCokkG3Eqn0I4B9VNAcmPrVjiaGtIE")
-    registration_ids = regIdArray
-    options = {data: {message: "글 #{post.title}이 판매 완료 되었습니다.",
-    category: post.category, title: post.title, description: post.description, post_id: post.id}, 
-    collapse_key: "updated_posts"}
-    response = gcm.send_notification(registration_ids, options)
   end
 
   def send_notification_inquiry(post)
@@ -115,7 +115,7 @@ class ApplicationController < ActionController::Base
   end
 
   def changeCategory(category)
-    list = {"buy" => "삽니다", "sell" => "팝니다", "sellComplete" => "판매 완료", "inquiry" => "문의 및 견적의뢰", "notice" => "공지사항" }
+    list = {"buy" => "삽니다", "sell" => "팝니다", "sellComplete" => "판매 완료", "inquiry" => "문의 및 견적의뢰", "notice" => "공지사항", "recruit" => "구인 구직"}
 
     list.key(category)
   end
